@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,3 +18,5 @@ Route::middleware([
         return Inertia::render('Home'); // Renderiza a página 'Home' no Vue
     });
 });
+
+Route::get('/insert-data', [TestController::class, 'insertData']);
