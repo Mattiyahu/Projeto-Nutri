@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import '@fortawesome/fontawesome-free/css/all.min.css'
+
 // Defina seus componentes aqui
 import LoginComponent from './pages/login/LoginComponent.vue'
 import HomeComponent from './pages/home/HomeComponent.vue'
@@ -16,6 +17,7 @@ import AcompanhamentoSaudeMentalComponent from './pages/decisao/acompanhamento-s
 import InteragirPostagensComponent from './pages/decisao/interagir-postagens/InteragirPostagensComponent.vue'
 
 const routes = [
+  { path: '/', component: HomeComponent }, // Definindo a página inicial como HomeComponent
   { path: '/login', component: LoginComponent },
   { path: '/home', component: HomeComponent },
   { path: '/cadastro', component: CadastroComponent },
