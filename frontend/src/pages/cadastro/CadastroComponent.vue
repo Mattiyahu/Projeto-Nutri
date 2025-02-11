@@ -2,10 +2,10 @@
   <div class="register">
     <h2>Cadastro</h2>
 
-    <!-- Se a primeira parte do formulário for exibida -->
+    <!-- Formulário -->
     <form @submit.prevent="handleSubmit">
+      <!-- Etapa 1 -->
       <div v-if="step === 1">
-        <!-- Perguntas sobre o nome, email e senha -->
         <div class="form-group">
           <label for="nome">Nome</label>
           <input type="text" id="nome" v-model="form.nome" required placeholder="Digite seu nome" />
@@ -21,18 +21,16 @@
           <input type="password" id="senha" v-model="form.senha" required placeholder="Digite sua senha" />
         </div>
 
-        <!-- Botão de envio para a primeira parte -->
         <div class="form-actions">
-          <button type="submit" class="btn-submit">Próximo</button>
+          <button type="button" class="btn-submit" @click="nextStep">Próximo</button>
         </div>
       </div>
 
-      <!-- Se a segunda parte do formulário for exibida -->
+      <!-- Etapa 2 -->
       <div v-if="step === 2">
-        <!-- Perguntas sobre altura, peso, etc. -->
         <div class="form-group">
           <label for="dataNascimento">Data de Nascimento</label>
-          <input type="date" id="dataNascimento" v-model="form.dataNascimento" required />
+          <input type="date" id="dataNascimento" v-model="form.data_nascimento" required />
         </div>
 
         <div class="form-group">
@@ -42,10 +40,20 @@
 
         <div class="form-group">
           <label for="peso">Peso Atual (Kg)</label>
-          <input type="number" id="peso" v-model="form.peso" required placeholder="Digite seu peso atual" />
+          <input type="number" id="peso" v-model="form.peso_atual" required placeholder="Digite seu peso atual" />
         </div>
 
-        <!-- Botão para enviar a segunda parte -->
+        <!-- Campo de Sexo -->
+        <div class="form-group">
+          <label for="sexo">Sexo</label>
+          <select id="sexo" v-model="form.sexo" required>
+            <option value="">Selecione</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-submit">Cadastrar</button>
         </div>
@@ -55,32 +63,59 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'CadastroComponent',
   data() {
     return {
-      step: 1, // Controla qual parte do formulário deve ser exibida
+      step: 1, // Começa na etapa 1
       form: {
         nome: '',
         email: '',
         senha: '',
-        dataNascimento: '',
+        data_nascimento: '',
         altura: '',
-        peso: ''
+        peso_atual: '',
+        sexo: '' // Campo adicionado para o sexo
       }
     };
   },
   methods: {
-    handleSubmit() {
-      // Se estiver na primeira etapa, avançar para a segunda etapa
-      if (this.step === 1) {
-        this.step = 2;
-      } else {
-        // Se estiver na segunda etapa, enviar o formulário
-        console.log('Formulário enviado:', this.form);
+    nextStep() {
+      // Avança para a etapa 2
+      this.step = 2;
+    },
 
-        // Redireciona para a página de saúde mental ou outra página após o cadastro
-        this.$router.push('/cadastro/saude-mental');
+    handleSubmit() {
+      if (this.step === 2) {
+        // Validação dos campos
+        if (!this.form.data_nascimento || !this.form.altura || !this.form.peso_atual || !this.form.sexo) {
+          console.error('Erro: Preencha todos os campos obrigatórios.');
+          return;
+        }
+
+        // Enviar os dados completos para o backend
+        axios.post('http://localhost:8000/api/cadastro', {
+          nome: this.form.nome,
+          email: this.form.email,
+          senha: this.form.senha,
+          data_nascimento: this.form.data_nascimento,
+          altura: this.form.altura,
+          peso_atual: this.form.peso_atual,
+          sexo: this.form.sexo
+        })
+        .then(response => {
+          console.log('Cadastro realizado:', response.data);
+          this.$router.push('/cadastro/saude-mental');  // Exemplo de redirecionamento
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 409) {
+            alert('Erro: ' + error.response.data.message); // Exibe a mensagem "Usuário já existe"
+          } else {
+            console.error('Erro ao enviar o cadastro:', error.response || error);
+          }
+        });
       }
     }
   }

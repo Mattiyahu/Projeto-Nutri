@@ -90,7 +90,7 @@ footer {
   color: #3e261a;
 }
 
-.footer p {
+footer p {
   color: #5a3825;
   margin: 0;
 }
