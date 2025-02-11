@@ -12,22 +12,22 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
           <ul class="navbar-nav text-center">
             <li class="nav-item">
-              <a class="nav-link" href="#">Início</a>
+              <router-link class="nav-link" to="/">Início</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Sobre Nós</a>
+              <router-link class="nav-link" to="/sobre-nos">Sobre Nós</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
+              <router-link class="nav-link" to="/login">Login</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Inscreva-se</a>
+              <router-link class="nav-link" to="/cadastro">Inscreva-se</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Comunidade</a>
+              <router-link class="nav-link" to="/rede-social">Comunidade</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Artigos</a>
+              <router-link class="nav-link" to="/artigos">Artigos</router-link>
             </li>
           </ul>
         </div>
@@ -44,9 +44,6 @@
     <div class="purpose-section">
       <div class="purpose-content">
         <div class="purpose-box">
-          <div class="purpose-image">
-            <img src="@/assets/images/brain.jpg" alt="Cabeça de fato" class="img-fluid">
-          </div>
           <div class="purpose-text">
             <h1>Nosso Propósito</h1>
             <p>O projeto ALIMENTE tem como objetivo produzir e difundir informações científicas de qualidade sobre alimentação e nutrição. Essa iniciativa busca contribuir para a aquisição de hábitos alimentares saudáveis e combater a infodemia de desinformação que leva a práticas alimentares errôneas e potencialmente prejudiciais à saúde.</p>
@@ -67,24 +64,6 @@
         </ul>
       </div>
     </div>
-
-    
-
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <ul class="footer-links">
-              <li><a href="#">Termos de Uso</a></li>
-              <li><a href="#">Política de Privacidade</a></li>
-              <li><a href="#">Contato</a></li>
-              <li><a href="#">Sobre Nós</a></li>
-            </ul>
-            <p>&copy; 2025 AliMENTE. Todos os direitos reservados.</p>
-          </div>
-        </div>
-      </div>
-    </footer>
   </div>
 </template>
 
@@ -221,6 +200,7 @@ img {
   align-items: center;
   position: relative;
   margin-bottom: 40px;
+  flex-grow: 1;
 }
 
 .purpose-content {
@@ -290,41 +270,6 @@ img {
   100% {
     transform: scale(1);
   }
-}
-
-.footer {
-  background: beige;
-  padding: 20px 0;
-  text-align: center;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 10px 0;
-}
-
-.footer-links li {
-  display: inline;
-  margin: 0 10px;
-}
-
-.footer-links a {
-  color: #5a3825;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.footer-links a:hover {
-  color: #3e261a;
-}
-
-.footer p {
-  color: #5a3825;
-  margin: 0;
 }
 
 .floating-brains {
