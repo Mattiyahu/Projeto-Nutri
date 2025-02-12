@@ -26,13 +26,35 @@
         </div>
       </div>
     </footer>
+
+    <!-- Botão para instalar o PWA -->
+    <button 
+      id="installButton" 
+      @click="installApp" 
+      style="display: none;">
+      Instalar Aplicativo
+    </button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
-  components: {}
+  methods: {
+    installApp() {
+      if (window.deferredPrompt) {
+        window.deferredPrompt.prompt();
+        window.deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuário aceitou a instalação');
+          } else {
+            console.log('Usuário rejeitou a instalação');
+          }
+          window.deferredPrompt = null;
+        });
+      }
+    }
+  }
 }
 </script>
 

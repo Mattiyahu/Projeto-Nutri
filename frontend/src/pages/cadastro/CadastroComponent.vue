@@ -59,6 +59,11 @@
         </div>
       </div>
     </form>
+
+    <!-- Botão de instalação PWA -->
+    <div id="installButton" style="display: none; text-align: center;">
+      <button class="btn-submit" @click="installApp">Instalar App</button>
+    </div>
   </div>
 </template>
 
@@ -78,7 +83,8 @@ export default {
         altura: '',
         peso_atual: '',
         sexo: '' // Campo adicionado para o sexo
-      }
+      },
+      deferredPrompt: null // Armazena o evento do PWA
     };
   },
   methods: {
@@ -117,7 +123,40 @@ export default {
           }
         });
       }
+    },
+
+    installApp() {
+      // Exibe o prompt de instalação
+      if (this.deferredPrompt) {
+        this.deferredPrompt.prompt();
+        this.deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuário aceitou a instalação');
+          } else {
+            console.log('Usuário rejeitou a instalação');
+          }
+          this.deferredPrompt = null;
+        });
+      }
     }
+  },
+
+  mounted() {
+    // Espera o componente ser montado para manipular o botão
+    this.$nextTick(() => {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Impede que o prompt seja mostrado automaticamente
+        e.preventDefault();
+        // Armazena o evento para ser acionado mais tarde
+        this.deferredPrompt = e;
+
+        // Exibe o botão de instalação
+        const installBtn = document.getElementById('installButton');
+        if (installBtn) {
+          installBtn.style.display = 'block';
+        }
+      });
+    });
   }
 };
 </script>
